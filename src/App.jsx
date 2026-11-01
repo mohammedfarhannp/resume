@@ -62,39 +62,55 @@ function BrandStrip() {
 function AwardRow({ award, index }) {
   const [scope, animate] = useAnimate()
   const isInView = useInView(scope, { once: true, amount: 0.35 })
+  const reduceMotion = useReducedMotion()
 
   useEffect(() => {
     if (!isInView) return undefined
     let cancelled = false
+    const piece = (selector, keyframes, options = {}) => animate(selector, keyframes, {
+      ...options,
+      duration: reduceMotion ? 0 : options.duration ?? 0.3,
+      delay: reduceMotion ? 0 : options.delay ?? 0,
+    })
 
     async function buildRow() {
       await animate(scope.current, { opacity: 1, y: 0 }, {
-        duration: 0.5,
-        delay: index * 0.22,
+        duration: reduceMotion ? 0 : 0.5,
+        delay: reduceMotion ? 0 : index * 0.3,
         ease: [0.22, 1, 0.36, 1],
       })
       if (cancelled) return
 
       await Promise.all([
-        animate('.row-node', { opacity: [0, 1], scale: [0, 1.45, 1] }, { duration: 0.34, ease: 'easeOut' }),
-        animate('.award-symbol', { opacity: [0, 1], scale: [0.5, 1], rotate: [-24, 0] }, { duration: 0.36, delay: 0.12 }),
-        animate('.row-category', { opacity: [0, 1], x: [-7, 0] }, { duration: 0.3, delay: 0.26 }),
-        animate('.row-index', { opacity: [0, 1] }, { duration: 0.24, delay: 0.34 }),
-        animate('.row-copy h3', { opacity: [0, 1], y: [9, 0] }, { duration: 0.36, delay: 0.46 }),
-        animate('.row-copy p', { opacity: [0, 1], y: [6, 0] }, { duration: 0.32, delay: 0.64 }),
-        animate('.award-year', { opacity: [0, 1], x: [8, 0] }, { duration: 0.34, delay: 0.7 }),
-        animate('.assembly-agent', { opacity: [0, 1, 1, 0], left: ['0%', 'calc(100% - 11px)'] }, {
-          duration: 1.25,
-          delay: 0.05,
-          ease: 'linear',
+        piece('.row-node', { opacity: [0, 1], scale: [0, 1.45, 1] }, { duration: 0.34, ease: 'easeOut' }),
+        piece('.award-symbol', { opacity: [0, 1], scale: [0.5, 1], rotate: [-24, 0] }, { duration: 0.36, delay: 0.18 }),
+        piece('.row-category', { opacity: [0, 1], x: [-7, 0] }, { duration: 0.3, delay: 0.28 }),
+        piece('.row-index', { opacity: [0, 1] }, { duration: 0.24, delay: 0.38 }),
+        piece('.row-copy h3', { opacity: [0, 1], y: [9, 0] }, { duration: 0.36, delay: 0.52 }),
+        piece('.row-copy p', { opacity: [0, 1], y: [6, 0] }, { duration: 0.32, delay: 0.69 }),
+        piece('.award-year', { opacity: [0, 1], x: [8, 0] }, { duration: 0.34, delay: 0.77 }),
+        piece('.agent-coral', { opacity: [0, 1, 1, 0], left: ['-2%', '5%'], top: [76, 29], rotate: [-25, 10] }, {
+          duration: 0.84,
+          delay: 0.02,
+          ease: [0.22, 1, 0.36, 1],
+        }),
+        piece('.agent-cyan', { opacity: [0, 1, 1, 0], left: ['-2%', '39%'], top: [84, 69], rotate: [-35, 12] }, {
+          duration: 1.08,
+          delay: 0.2,
+          ease: [0.22, 1, 0.36, 1],
+        }),
+        piece('.agent-amber', { opacity: [0, 1, 1, 0], left: ['18%', '96%'], top: [7, 58], rotate: [-20, 6] }, {
+          duration: 1.05,
+          delay: 0.42,
+          ease: [0.22, 1, 0.36, 1],
         }),
       ])
-      if (!cancelled) await animate('.row-rule', { scaleX: [0, 1] }, { duration: 0.4, ease: [0.22, 1, 0.36, 1] })
+      if (!cancelled) await piece('.row-rule', { scaleX: [0, 1] }, { duration: 0.4, ease: [0.22, 1, 0.36, 1] })
     }
 
     buildRow()
     return () => { cancelled = true }
-  }, [animate, index, isInView, scope])
+  }, [animate, index, isInView, reduceMotion, scope])
 
   return (
     <motion.article
@@ -119,7 +135,9 @@ function AwardRow({ award, index }) {
           <span className="award-year">{award.year}</span>
         </div>
         <span className="row-rule" aria-hidden="true" />
-        <span className="assembly-agent" aria-hidden="true"><i /></span>
+        <span className="assembly-agent agent-coral" aria-hidden="true"><i /></span>
+        <span className="assembly-agent agent-cyan" aria-hidden="true"><i /></span>
+        <span className="assembly-agent agent-amber" aria-hidden="true"><i /></span>
       </div>
     </motion.article>
   )
