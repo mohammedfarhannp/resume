@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { AnimatePresence, MotionConfig, motion, useReducedMotion } from 'framer-motion'
+import { useEffect, useState } from 'react'
+import { AnimatePresence, MotionConfig, motion, useAnimate, useInView, useReducedMotion } from 'framer-motion'
 import {
   ArrowDownRight,
   ArrowLeft,
@@ -14,15 +14,6 @@ import { awards, brands } from './data.js'
 const reveal = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.72, ease: [0.22, 1, 0.36, 1] } },
-}
-
-const listReveal = {
-  hidden: { opacity: 0, y: 24 },
-  visible: (index) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.68, delay: index * 0.17, ease: [0.22, 1, 0.36, 1] },
-  }),
 }
 
 function AwardMark({ kind }) {
@@ -69,11 +60,47 @@ function BrandStrip() {
 }
 
 function AwardRow({ award, index }) {
+  const [scope, animate] = useAnimate()
+  const isInView = useInView(scope, { once: true, amount: 0.35 })
+
+  useEffect(() => {
+    if (!isInView) return undefined
+    let cancelled = false
+
+    async function buildRow() {
+      await animate(scope.current, { opacity: 1, y: 0 }, {
+        duration: 0.5,
+        delay: index * 0.22,
+        ease: [0.22, 1, 0.36, 1],
+      })
+      if (cancelled) return
+
+      await Promise.all([
+        animate('.row-node', { opacity: [0, 1], scale: [0, 1.45, 1] }, { duration: 0.34, ease: 'easeOut' }),
+        animate('.award-symbol', { opacity: [0, 1], scale: [0.5, 1], rotate: [-24, 0] }, { duration: 0.36, delay: 0.12 }),
+        animate('.row-category', { opacity: [0, 1], x: [-7, 0] }, { duration: 0.3, delay: 0.26 }),
+        animate('.row-index', { opacity: [0, 1] }, { duration: 0.24, delay: 0.34 }),
+        animate('.row-copy h3', { opacity: [0, 1], y: [9, 0] }, { duration: 0.36, delay: 0.46 }),
+        animate('.row-copy p', { opacity: [0, 1], y: [6, 0] }, { duration: 0.32, delay: 0.64 }),
+        animate('.award-year', { opacity: [0, 1], x: [8, 0] }, { duration: 0.34, delay: 0.7 }),
+        animate('.assembly-agent', { opacity: [0, 1, 1, 0], left: ['0%', 'calc(100% - 11px)'] }, {
+          duration: 1.25,
+          delay: 0.05,
+          ease: 'linear',
+        }),
+      ])
+      if (!cancelled) await animate('.row-rule', { scaleX: [0, 1] }, { duration: 0.4, ease: [0.22, 1, 0.36, 1] })
+    }
+
+    buildRow()
+    return () => { cancelled = true }
+  }, [animate, index, isInView, scope])
+
   return (
     <motion.article
+      ref={scope}
       className="award-row group"
-      custom={index}
-      variants={listReveal}
+      initial={{ opacity: 0, y: 20 }}
       whileHover={{ x: 5, transition: { duration: 0.24 } }}
       tabIndex={0}
     >
@@ -92,6 +119,7 @@ function AwardRow({ award, index }) {
           <span className="award-year">{award.year}</span>
         </div>
         <span className="row-rule" aria-hidden="true" />
+        <span className="assembly-agent" aria-hidden="true"><i /></span>
       </div>
     </motion.article>
   )
@@ -230,14 +258,9 @@ function App() {
                 <span className="item-count">0{awards.length} ENTRIES</span>
               </div>
 
-              <motion.div
-                className="award-list"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.32 }}
-              >
+              <div className="award-list">
                 {awards.map((award, index) => <AwardRow key={award.placement} award={award} index={index} />)}
-              </motion.div>
+              </div>
 
               <motion.div
                 className="timeline-note"
