@@ -7,20 +7,22 @@ const requiredFiles = [
   'index.html',
   'Asset/dist/app.js',
   'Asset/dist/app.css',
+  'dist/Resume-Mohammed-Farhan-NP.pdf',
   'src/data/projects.json',
-  'src/data/brands.json',
+  'Resume-2026-March-v2.pdf',
 ];
 
 for (const file of requiredFiles) {
   await access(path.join(projectRoot, file));
 }
 
-const [projects, brands] = await Promise.all([
-  readFile(path.join(projectRoot, 'src/data/projects.json'), 'utf8').then(JSON.parse),
-  readFile(path.join(projectRoot, 'src/data/brands.json'), 'utf8').then(JSON.parse),
-]);
+const projects = await readFile(path.join(projectRoot, 'src/data/projects.json'), 'utf8').then(JSON.parse);
 
-if (projects.length !== 116) throw new Error(`Expected 116 projects, found ${projects.length}`);
-if (brands.length !== 18) throw new Error(`Expected 18 brands, found ${brands.length}`);
+if (projects.length !== 4) throw new Error(`Expected 4 resume projects, found ${projects.length}`);
+for (const project of projects) {
+  if (!project.title || !project.description || !project.image || !project.tech?.length) {
+    throw new Error(`Incomplete project entry: ${project.title || '(untitled)'}`);
+  }
+}
 
-console.log(`Portfolio check passed: ${projects.length} projects, ${brands.length} brands, and build files present.`);
+console.log(`Resume portfolio check passed: ${projects.length} projects and build files present.`);

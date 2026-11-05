@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 
 const COLORS = ['#ef4151', '#f5eee7', '#e7b958', '#a99af5', '#86cdb6', '#ff936f', '#d9e6ef', '#e8b3cf'];
 const TARGETS = [
-  '.site-header', '.hero-top', '.hero-title', '.hero-portrait', '.hero-intro', '.hero-side', '.hero-bottom',
-  '.section-heading', '.portfolio-toolbar', '.project-card', '.brand-section', '.recognition', '.breakdown-copy',
-  '.comparison', '.about-lead', '.studio-grid > *', '.process-row', '.quote-panel', '.experience-row',
-  '.awards-panel', '.contact-grid', '.project-brief', '.footer',
+  '.site-header', '.hero-top', '.hero-title', '.hero-visual', '.hero-intro', '.hero-side', '.hero-bottom',
+  '.section-heading', '.portfolio-toolbar', '.project-card', '.project-note', '.recognition', '.skill-row',
+  '.about-lead', '.studio-grid > *', '.process-row', '.quote-panel', '.experience-row',
+  '.awards-panel', '.contact-grid', '.footer',
 ];
 const MAX_TARGETS = 64;
 const clamp = (value, min = 0, max = 1) => Math.max(min, Math.min(max, value));
@@ -132,11 +132,11 @@ function drawOrbit(ctx, time, progress) {
   ctx.textBaseline = 'middle';
   ctx.fillStyle = '#f4eeeb';
   ctx.font = '700 13px Manrope, system-ui, sans-serif';
-  ctx.fillText('RENANDO', x, y + 1);
+  ctx.fillText('FARHAN', x, y + 1);
   ctx.fillStyle = 'rgba(244, 238, 235, 0.5)';
   ctx.font = '600 8px Manrope, system-ui, sans-serif';
   ctx.letterSpacing = '0.24em';
-  ctx.fillText(progress > 0.7 ? 'THE FINAL FRAME' : 'REBUILDING THE PORTFOLIO', x, y + 62);
+  ctx.fillText(progress > 0.7 ? 'THE FINAL BUILD' : 'REBUILDING THE PORTFOLIO', x, y + 62);
 }
 
 export default function SwarmIntro({ enabled, blocked = false }) {
@@ -501,7 +501,7 @@ export default function SwarmIntro({ enabled, blocked = false }) {
   return <>
     <canvas ref={canvasRef} className="swarm-intro-canvas" aria-hidden="true" />
     <div className="swarm-intro-hud" role="group" aria-label="Portfolio rebuild controls">
-      <div className="swarm-hud-brand"><span className="swarm-hud-orbit"><i /></span><span><b>{phase === 'return' || phase === 'reveal' ? 'THE FINAL FRAME' : 'REBUILDING RENANDO'}</b><small>{phase === 'intro' ? 'Gathering the crew' : phase === 'build' ? `${progress.done} / ${progress.total} elements assembled` : 'Returning to the live portfolio'}</small></span></div>
+      <div className="swarm-hud-brand"><span className="swarm-hud-orbit"><i /></span><span><b>{phase === 'return' || phase === 'reveal' ? 'THE FINAL BUILD' : 'REBUILDING FARHAN'}</b><small>{phase === 'intro' ? 'Gathering the crew' : phase === 'build' ? `${progress.done} / ${progress.total} elements assembled` : 'Returning to the live portfolio'}</small></span></div>
       <div className="swarm-hud-progress" role="progressbar" aria-label="Portfolio rebuild progress" aria-valuemin={0} aria-valuemax={Math.max(1, progress.total)} aria-valuenow={progress.done}><i style={{ width: `${progress.total ? (progress.done / progress.total) * 100 : 0}%` }} /></div>
       <div className="swarm-hud-actions">
         {(phase === 'intro' || phase === 'build') && <button onClick={changeSpeed} title="Change build speed">{speed}×</button>}
