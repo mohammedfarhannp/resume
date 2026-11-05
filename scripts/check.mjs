@@ -18,7 +18,7 @@ for (const file of requiredFiles) {
 
 const projects = await readFile(path.join(projectRoot, 'src/data/projects.json'), 'utf8').then(JSON.parse);
 
-if (projects.length !== 4) throw new Error(`Expected 4 resume projects, found ${projects.length}`);
+if (projects.length !== 5) throw new Error(`Expected 5 resume projects, found ${projects.length}`);
 for (const project of projects) {
   if (!project.title || !project.description || !project.image || !project.tech?.length) {
     throw new Error(`Incomplete project entry: ${project.title || '(untitled)'}`);

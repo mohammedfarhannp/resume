@@ -22,6 +22,7 @@ await mkdir(`${outputDirectory}/Asset/dist`, { recursive: true });
 await mkdir(`${outputDirectory}/Asset/img/projects`, { recursive: true });
 await cp('Asset/dist', `${outputDirectory}/Asset/dist`, { recursive: true });
 await cp('Asset/img/favicon.svg', `${outputDirectory}/Asset/img/favicon.svg`);
+await cp('Asset/img/mohammed-farhan-hero.png', `${outputDirectory}/Asset/img/mohammed-farhan-hero.png`);
 await cp('Asset/img/projects', `${outputDirectory}/Asset/img/projects`, { recursive: true });
 await cp('Resume-2026-March-v2.pdf', `${outputDirectory}/Resume-Mohammed-Farhan-NP.pdf`);
 

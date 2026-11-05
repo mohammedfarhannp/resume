@@ -84,7 +84,8 @@ function Hero() {
     <motion.div className="hero-title display" aria-hidden="true" style={enabled ? { y: titleY } : {}}>BUILD.</motion.div>
     <motion.div className="hero-visual" style={enabled ? { y: visualY } : {}} aria-label="Code editor inspired portfolio artwork">
       <div className="visual-orbit orbit-a"/><div className="visual-orbit orbit-b"/>
-      <div className="terminal-card">
+      <div className="hero-portrait-frame"><img src="./Asset/img/mohammed-farhan-hero.png" alt="Mohammed Farhan in a dark, cinematic portrait" fetchPriority="high"/></div>
+      <div className="terminal-card hero-terminal">
         <div className="terminal-bar"><span/><span/><span/><b>farhan@portfolio ~ /about</b><i>— □ ×</i></div>
         <div className="terminal-body"><aside><span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span></aside><code><span className="code-muted"># curious mind, practical builds</span><br/><span className="code-pink">class</span> <span className="code-gold">MohammedFarhan</span>:<br/>&nbsp;&nbsp;<span className="code-pink">focus</span> = [<span className="code-green">"python"</span>,<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span className="code-green">"cybersecurity"</span>,<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span className="code-green">"useful software"</span>]<br/><br/>&nbsp;&nbsp;<span className="code-pink">def</span> <span className="code-blue">build</span>(problem):<br/>&nbsp;&nbsp;&nbsp;&nbsp;<span className="code-pink">return</span> solution<br/><span className="terminal-cursor">▌</span></code></div>
         <div className="terminal-status"><span><i/> PYTHON 3.12</span><span>UTF-8</span><span>THALASSERY, IN</span></div>
@@ -99,7 +100,7 @@ function Hero() {
     </motion.div>
     <motion.div className="hero-side" initial={enabled ? { opacity: 0, x: 25 } : false} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.9, delay: 0.45, ease: EASE }}>
       <div className="hero-manifesto"><span className="crosshair" aria-hidden="true">✳</span><p>Curiosity into<br/>working solutions.</p></div>
-      <div className="hero-stats"><div><span className="display">04</span><p>RESUME<br/>PROJECTS</p></div><div><span className="display">MCA</span><p>2024—2026<br/>KANNUR UNIVERSITY</p></div><div><span className="display">01</span><p>LIVE PUBLIC<br/>WEBSITE</p></div><a href={resumeUrl} download><Download size={16}/><span>DOWNLOAD RESUME</span></a></div>
+      <div className="hero-stats"><div><span className="display">05</span><p>FEATURED<br/>PROJECTS</p></div><div><span className="display">MCA</span><p>2024—2026<br/>KANNUR UNIVERSITY</p></div><div><span className="display">01</span><p>LIVE PUBLIC<br/>WEBSITE</p></div><a href={resumeUrl} download><Download size={16}/><span>DOWNLOAD RESUME</span></a></div>
     </motion.div>
     <div className="hero-bottom"><a className="reel-button" href={profile.github} target="_blank" rel="noopener noreferrer"><span className="play-circle"><Github size={14}/></span>GITHUB<span className="muted">PROJECTS & CODE</span></a><span className="hero-scroll">SCROLL TO EXPLORE <ArrowDown size={13}/></span><span className="edition">SOFTWARE / SECURITY / 2026</span></div>
   </section>;
@@ -116,7 +117,7 @@ function ProjectCard({ project, index, onOpen }) {
 function Portfolio({ onProject }) {
   const [category, setCategory] = useState('All');
   const [query, setQuery] = useState('');
-  const categories = ['All', 'Web', 'Python', 'ML'];
+  const categories = ['All', 'Web', 'Python', 'ML', 'Security'];
   const results = projects.filter(project => (category === 'All' || project.category === category) && `${project.title} ${project.category} ${project.role} ${project.tech.join(' ')}`.toLowerCase().includes(query.toLowerCase()));
   return <section id="portfolio" className="portfolio section-wrap">
     <Reveal className="section-heading"><div><span className="eyebrow">01 / SELECTED PROJECTS</span><h2>TOOLS BUILT TO BE USEFUL<span className="accent">.</span></h2></div><span className="project-count">{String(projects.length).padStart(2, '0')} PROJECTS</span></Reveal>

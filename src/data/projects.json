@@ -39,5 +39,16 @@
     "role": "Command-line machine learning tool",
     "tech": ["Python", "Machine Learning"],
     "description": "A command-line tool that uses historical stock data to predict next-day prices. The dataset is updated daily and the model is retrained."
+  },
+  {
+    "title": "InvestiGraph",
+    "category": "Security",
+    "type": "application",
+    "year": "Rust · Desktop app",
+    "image": "./Asset/img/projects/investigraph.svg",
+    "url": "https://github.com/mohammedfarhannp/InvestiGraph",
+    "role": "Investigation graph tool",
+    "tech": ["Rust", "Macroquad", "egui", "Serde", "GPL v3"],
+    "description": "A Rust rebuild of an investigation graph tool originally made in Python. Map ten entity types, create directed relationships, edit node and edge notes, and save or load graphs in the .investigraph JSON format."
   }
 ]
