@@ -4,7 +4,7 @@ const COLORS = ['#ef4151', '#f5eee7', '#e7b958', '#a99af5', '#86cdb6', '#ff936f'
 const TARGETS = [
   '.site-header', '.hero-top', '.hero-title', '.hero-visual', '.hero-intro', '.hero-side', '.hero-bottom',
   '.section-heading', '.portfolio-toolbar', '.project-card', '.project-note', '.recognition', '.skill-row',
-  '.about-lead', '.studio-grid > *', '.process-row', '.quote-panel', '.experience-row',
+  '.about-lead', '.studio-grid > *', '.process-row', '.about-photo-panel', '.experience-row',
   '.awards-panel', '.contact-grid', '.footer',
 ];
 const MAX_TARGETS = 64;
